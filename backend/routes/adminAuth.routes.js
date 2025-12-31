@@ -20,10 +20,6 @@ router.get("/recent-users", adminAuth, getRecentUsers);
 router.get("/user-stats", adminAuth, getUserStats);
 router.get("/total-sales", adminAuth, getTotalSales);
 
-/**
- * NEW: dynamic stats
- * /sales-stats?type=daily | monthly | yearly
- */
 router.get("/sales-stats", adminAuth, getSalesStats);
 
 module.exports = router;

@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const Sale = require("../models/Sale");
 
-/* ---------------- USERS ---------------- */
-
 const getTotalUsers = async (req, res) => {
   const totalUsers = await User.countDocuments();
   res.json({ totalUsers });
@@ -34,8 +32,6 @@ const getUserSignupStats = async (req, res) => {
   res.json({ stats });
 };
 
-/* ---------------- SALES ---------------- */
-
 const getTotalSales = async (req, res) => {
   const result = await Sale.aggregate([
     { $group: { _id: null, total: { $sum: "$amount" } } }
@@ -44,12 +40,6 @@ const getTotalSales = async (req, res) => {
   res.json({ totalSales: result[0]?.total || 0 });
 };
 
-/**
- * ✅ ONE API FOR ALL CHART MODES
- * daily   → last 30 days
- * monthly → 12 months
- * yearly  → last 5 years
- */
 const getSalesStats = async (req, res) => {
   const type = req.query.type || "monthly";
   let pipeline = [];
