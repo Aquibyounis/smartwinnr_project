@@ -1,8 +1,25 @@
 # Admin Dashboard – MEAN Stack
 
 A full-featured **Admin Dashboard application** built using the **MEAN stack (MongoDB, Express.js, Angular, Node.js)**.  
-This project provides secure admin authentication, analytics dashboards, interactive charts, manual auto-sync, and separate user/admin flows for testing and management.
+This project provides secure admin authentication, analytics dashboards, interactive charts, auto-sync, and separate user/admin flows for testing and management.
+---
 
+## SET UP
+```
+git clone https://github.com/Aquibyounis/smartwinnr_project.git
+```
+### Frontend
+```
+cd admin
+npm install
+ng serve
+```
+## Backend
+```
+cd backend
+npm install
+npm start
+```
 ---
 
 ## ✨ Key Features
@@ -66,7 +83,7 @@ This project provides secure admin authentication, analytics dashboards, interac
 
 ## 🔀 Application Routes
 
-### 👤 User Side (for testing data)
+### 👤 User Side (for creating USER account)
 
 - **Signup Page**  
   `http://localhost:4200/signup`
@@ -89,31 +106,7 @@ Purpose:
 Notes:
 - Admin login required
 - Dashboard accessible only after authentication
-
 ---
 
-## 📁 Project Structure
 
-```text
-admin/
-├── src/
-│   ├── pages/
-│   │   └── admin-dashboard/
-│   │       ├── admin-dashboard.ts
-│   │       ├── admin-dashboard.html
-│   │       └── admin-dashboard.css
-│   ├── services/
-│   │   └── admin-dashboard.service.ts
-│   └── app.module.ts
-│
-backend/
-├── controllers/
-│   └── adminDashboard.controller.js
-├── middleware/
-│   └── adminAuth.middleware.js
-├── models/
-│   ├── User.js
-│   └── Sale.js
-├── routes/
-│   └── admin.routes.js
-└── server.js
+# PULA AQUIB YOUNIS
