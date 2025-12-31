@@ -1,12 +1,21 @@
 <div class="dashboard-container">
 
-  <!-- Header -->
+  <!-- HEADER -->
   <header class="dashboard-header">
     <h2>Admin Dashboard</h2>
-    <button class="logout-btn" (click)="logout()">Logout</button>
+
+    <div class="header-actions">
+      <!-- SYNC BUTTON -->
+      <button class="sync-btn" (click)="syncNow()">
+        Sync
+      </button>
+
+      <!-- LOGOUT -->
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
   </header>
 
-  <!-- Stats Cards -->
+  <!-- STATS -->
   <section class="stats">
     <div class="stat-card">
       <h4>Total Users</h4>
@@ -24,28 +33,35 @@
     </div>
   </section>
 
-  <!-- Charts Section -->
+  <!-- CHARTS -->
   <section class="charts">
-    <div class="chart-box">
-      <h4>Sales Overview</h4>
-      <canvas id="salesChart"></canvas>
-    </div>
 
+    <!-- SALES -->
     <div class="chart-box">
       <div class="chart-header">
         <h4>Sales Overview</h4>
 
-        <!-- DROPDOWN -->
-        <select #view (change)="onSalesViewChange(view.value)">
-          <option value="daily">Daily (Last 30 Days)</option>
+        <select #salesView (change)="onSalesViewChange(salesView.value)">
+          <option value="daily">Daily</option>
           <option value="monthly" selected>Monthly</option>
-          <option value="yearly">Yearly (Last 5 Years)</option>
+          <option value="yearly">Yearly</option>
         </select>
-
-
       </div>
-
       <canvas id="salesChart"></canvas>
+    </div>
+
+    <!-- USERS -->
+    <div class="chart-box">
+      <div class="chart-header">
+        <h4>User Growth</h4>
+
+        <select #userView (change)="onUserViewChange(userView.value)">
+          <option value="daily">Daily</option>
+          <option value="monthly" selected>Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <canvas id="usersChart"></canvas>
     </div>
 
   </section>

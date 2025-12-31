@@ -38,11 +38,17 @@ export class AdminDashboardService {
     );
   }
 
-
   getUserSignups() {
     return this.http.get<any>(
       `${this.baseUrl}/user-signups`,
       this.authHeaders()
     );
   }
+  getUserStats(type: 'daily' | 'monthly' | 'yearly') {
+    return this.http.get<any>(
+      `${this.baseUrl}/user-stats?type=${type}`,
+      this.authHeaders()
+    );
+  }
+
 }

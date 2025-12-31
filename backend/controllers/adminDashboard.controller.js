@@ -106,10 +106,68 @@ const getSalesStats = async (req, res) => {
   res.json({ stats });
 };
 
+const getUserStats = async (req, res) => {
+  const type = req.query.type || "monthly";
+  let pipeline = [];
+
+  if (type === "daily") {
+    pipeline = [
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(new Date().setDate(new Date().getDate() - 30))
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ];
+  }
+
+  if (type === "monthly") {
+    pipeline = [
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } }
+    ];
+  }
+
+  if (type === "yearly") {
+    pipeline = [
+      {
+        $group: {
+          _id: { year: { $year: "$createdAt" } },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { "_id.year": 1 } }
+    ];
+  }
+
+  const stats = await User.aggregate(pipeline);
+  res.json({ stats });
+};
+
+
 module.exports = {
   getTotalUsers,
   getRecentUsers,
   getUserSignupStats,
   getTotalSales,
-  getSalesStats
+  getSalesStats,
+  getUserStats
 };

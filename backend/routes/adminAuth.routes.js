@@ -7,7 +7,8 @@ const {
   getRecentUsers,
   getUserSignupStats,
   getTotalSales,
-  getSalesStats
+  getSalesStats,
+  getUserStats
 } = require("../controllers/adminDashboard.controller");
 
 const { adminLogin } = require("../controllers/adminAuth.controller");
@@ -16,7 +17,7 @@ router.post("/login", adminLogin);
 
 router.get("/total-users", adminAuth, getTotalUsers);
 router.get("/recent-users", adminAuth, getRecentUsers);
-router.get("/user-signups", adminAuth, getUserSignupStats);
+router.get("/user-stats", adminAuth, getUserStats);
 router.get("/total-sales", adminAuth, getTotalSales);
 
 /**
