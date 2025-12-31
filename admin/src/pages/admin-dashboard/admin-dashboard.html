@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </header>
+
+  <!-- Stats Cards -->
+  <section class="stats">
+    <div class="stat-card">
+      <h4>Total Users</h4>
+      <p>{{ totalUsers }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Total Sales</h4>
+      <p>{{ totalSales }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h4>Active Users</h4>
+      <p>{{ activeUsers }}</p>
+    </div>
+  </section>
+
+  <!-- Charts Section -->
+  <section class="charts">
+    <div class="chart-box">
+      <h4>Sales Overview</h4>
+      <canvas id="salesChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-header">
+        <h4>Sales Overview</h4>
+
+        <!-- DROPDOWN -->
+        <select #view (change)="onSalesViewChange(view.value)">
+          <option value="daily">Daily (Last 30 Days)</option>
+          <option value="monthly" selected>Monthly</option>
+          <option value="yearly">Yearly (Last 5 Years)</option>
+        </select>
+
+
+      </div>
+
+      <canvas id="salesChart"></canvas>
+    </div>
+
+  </section>
+
+</div>

@@ -1,111 +1,115 @@
 const User = require("../models/User");
+const Sale = require("../models/Sale");
+
+/* ---------------- USERS ---------------- */
 
 const getTotalUsers = async (req, res) => {
-  try {
-    const totalUsers = await User.countDocuments();
-
-    res.status(200).json({
-      totalUsers: totalUsers,
-    });
-  } catch (error) {
-    console.log("Error fetching total users:", error);
-    res.status(500).json({ message: "Server error" });
-  }
+  const totalUsers = await User.countDocuments();
+  res.json({ totalUsers });
 };
 
 const getRecentUsers = async (req, res) => {
-  try {
-    const users = await User.find()
-      .sort({ createdAt: -1 })   // newest first
-      .limit(5)                  // last 5 users
-      .select("name email createdAt"); // hide password
+  const users = await User.find()
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .select("name email createdAt");
 
-    res.status(200).json({
-      users,
-    });
-  } catch (error) {
-    console.log("Error fetching recent users:", error);
-    res.status(500).json({ message: "Server error" });
-  }
+  res.json({ users });
 };
 
 const getUserSignupStats = async (req, res) => {
-  try {
-    const stats = await User.aggregate([
-      {
-        $group: {
-          _id: {
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
-          },
-          count: { $sum: 1 },
+  const stats = await User.aggregate([
+    {
+      $group: {
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" }
         },
-      },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1,
-        },
-      },
-    ]);
+        count: { $sum: 1 }
+      }
+    },
+    { $sort: { "_id.year": 1, "_id.month": 1 } }
+  ]);
 
-    res.status(200).json({
-      stats,
-    });
-  } catch (error) {
-    console.log("Error fetching signup stats:", error);
-    res.status(500).json({ message: "Server error" });
-  }
+  res.json({ stats });
 };
 
-const Sale = require("../models/Sale");
+/* ---------------- SALES ---------------- */
 
 const getTotalSales = async (req, res) => {
-  try {
-    const result = await Sale.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalRevenue: { $sum: "$amount" },
-        },
-      },
-    ]);
+  const result = await Sale.aggregate([
+    { $group: { _id: null, total: { $sum: "$amount" } } }
+  ]);
 
-    res.status(200).json({
-      totalSales: result[0]?.totalRevenue || 0,
-    });
-  } catch (error) {
-    console.log("Error fetching total sales:", error);
-    res.status(500).json({ message: "Server error" });
-  }
+  res.json({ totalSales: result[0]?.total || 0 });
 };
 
-const getMonthlySales = async (req, res) => {
-  try {
-    const stats = await Sale.aggregate([
+/**
+ * ✅ ONE API FOR ALL CHART MODES
+ * daily   → last 30 days
+ * monthly → 12 months
+ * yearly  → last 5 years
+ */
+const getSalesStats = async (req, res) => {
+  const type = req.query.type || "monthly";
+  let pipeline = [];
+
+  if (type === "daily") {
+    pipeline = [
+      {
+        $match: {
+          createdAt: {
+            $gte: new Date(new Date().setDate(new Date().getDate() - 30))
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+          },
+          total: { $sum: "$amount" }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ];
+  }
+
+  if (type === "monthly") {
+    pipeline = [
       {
         $group: {
           _id: {
             year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" },
+            month: { $month: "$createdAt" }
           },
-          total: { $sum: "$amount" },
-        },
+          total: { $sum: "$amount" }
+        }
       },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1,
-        },
-      },
-    ]);
-
-    res.status(200).json({ stats });
-  } catch (error) {
-    console.log("Error fetching sales stats:", error);
-    res.status(500).json({ message: "Server error" });
+      { $sort: { "_id.year": 1, "_id.month": 1 } }
+    ];
   }
+
+  if (type === "yearly") {
+    pipeline = [
+      {
+        $group: {
+          _id: { year: { $year: "$createdAt" } },
+          total: { $sum: "$amount" }
+        }
+      },
+      { $sort: { "_id.year": 1 } }
+    ];
+  }
+
+  const stats = await Sale.aggregate(pipeline);
+  res.json({ stats });
 };
 
-
-module.exports = { getTotalUsers, getRecentUsers, getUserSignupStats, getTotalSales, getMonthlySales};
+module.exports = {
+  getTotalUsers,
+  getRecentUsers,
+  getUserSignupStats,
+  getTotalSales,
+  getSalesStats
+};

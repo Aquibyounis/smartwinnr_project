@@ -1,0 +1,49 @@
+<div class="signup-page">
+    <div class="left-sign">
+        <h1 class="user-c">USER CREATION</h1>
+    </div>
+    <div class="right-sign">
+        <div class="signup">
+        <h2 class="s-head">SIGN UP</h2>
+
+        <form (ngSubmit)="onSubmit()" class="s-form">
+        <input
+            type="text"
+            placeholder="Name"
+            [(ngModel)]="name"
+            name="name"
+            required
+            />
+
+            <input
+            type="email"
+            placeholder="Email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            />
+
+            <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            minlength="6"
+            required
+            />
+
+
+        <br /><br />
+
+        <button
+        type="submit"
+        class="s-button"
+        [disabled]="!name || !email || !password"
+        >
+        Signup
+        </button>
+        </form>
+
+    </div>
+    </div>
+</div>

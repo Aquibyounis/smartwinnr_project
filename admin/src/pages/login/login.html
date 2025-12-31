@@ -1,0 +1,42 @@
+<div class="login-page">
+    <div class="left-login">
+        <h1 class="admin-c">ADMIN LOGIN</h1>
+    </div>
+    <div class="right-login">
+        <div class="login">
+        <h2 class="l-head">LOGIN</h2>
+
+        <form (ngSubmit)="onSubmit()" class="l-form">
+            <input
+            type="text"
+            placeholder="Admin ID"
+            [(ngModel)]="adminId"
+            name="adminId"
+            required
+            />
+
+            <input
+            type="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            minlength="6"
+            required
+            />
+
+
+        <br /><br />
+
+        <button
+        type="submit"
+        class="l-button"
+        [disabled]="!adminId || !password"
+        >
+        Login
+
+        </button>
+        </form>
+
+    </div>
+    </div>
+</div>

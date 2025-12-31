@@ -1,0 +1,79 @@
+*{
+    font-family:sans-serif;
+}
+.user-c{
+    font-weight: 800;
+    width: 100%;
+    text-align: end;
+    position:relative;
+    right: 50px;
+    top: 20px;
+    background: linear-gradient(45deg,rgb(25, 50, 61),rgb(108, 131, 148));
+    color: white;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+.s-head{
+    background: linear-gradient(45deg,rgb(28, 52, 57),rgb(68, 112, 174));
+    width: max-content;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    height: 25%;
+}
+
+.signup{
+    background-color: #f4f6f9;
+    width: 50svh;
+    height: 50svh;
+    padding: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.136);
+}
+
+.s-form{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.s-form input{
+    width: 80%;
+    height: 15%;
+    border: none;
+    outline: none;
+    background: #f4f6f9;
+    border-bottom: 1px solid rgb(46, 52, 60);
+    display: flex;
+    margin-bottom: 30px;
+    align-items: baseline;
+}
+
+.s-button{
+    background: rgb(11, 54, 119);
+    border: none;
+    outline: none;
+    color: white;
+    padding: 1em;
+    border-radius: 15px;
+    transition-duration: 0.25s;
+    cursor: pointer;
+    font-weight: 700;
+}
+.s-button:hover{
+    transform: translate(0,-2px);
+    scale: 1.05;
+}
